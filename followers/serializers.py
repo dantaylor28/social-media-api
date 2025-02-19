@@ -8,5 +8,5 @@ class FollowerSerializer(serializers.ModelSerializer):
         model = Follower
         fields = [
             'id', 'owner', 'followed',
-            'created_at'
+            'timestamp'
         ]
