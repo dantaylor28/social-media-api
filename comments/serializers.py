@@ -15,3 +15,11 @@ class CommentSerializer(serializers.ModelSerializer):
             'id', 'post', 'post_title', 'text', 'owner',
             'timestamp', 'updated_at', 'profile_id', 'profile_image'
         ]
+
+class CommentDetailSerializer(CommentSerializer):
+    """
+    This serializer is only necessary to autofill the post field that
+    we are editing to save users from having to reselect the corresponding
+    post every time
+    """
+    post = serializers.ReadOnlyField(source='post.id')
