@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import Post
 from .serializers import PostSerializer
+from socialmediaapi.permissions import IsOwnerOrReadOnly
 from rest_framework import generics
 
 class PostListView(generics.ListCreateAPIView):
@@ -20,4 +21,5 @@ class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
     if you are the post owner
     """
     serializer_class = PostSerializer
+    permission_classes = [IsOwnerOrReadOnly]
     queryset = Post.objects.all()

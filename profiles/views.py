@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import Profile
 from .serializers import ProfileSerializer
+from socialmediaapi.permissions import IsOwnerOrReadOnly
 from rest_framework import generics
 
 class ProfileListView(generics.ListAPIView):
@@ -16,4 +17,5 @@ class ProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
     & delete the profile if you are the owner
     """
     serializer_class = ProfileSerializer
+    permission_classes = [IsOwnerOrReadOnly]
     queryset = Profile.objects.all()
