@@ -12,3 +12,11 @@ class CommentLikeSerializer(serializers.ModelSerializer):
             'id', 'owner', 'comment', 'comment_text',
             'timestamp'
         ]
+
+    def create(self, validated_data):
+        try:
+            return super().create(validated_data)
+        except IntegrityError:
+            raise serializers.ValidationError({
+                'error': 'you cannot like a comment more than once'
+            })
