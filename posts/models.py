@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from categories.models import Category
 
 class Post(models.Model):
     """
@@ -10,6 +11,8 @@ class Post(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200, blank=True)
     caption = models.TextField(blank=True)
+    category = models.ForeignKey(
+        Category, on_delete=models.RESTRICT, null=True, blank=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     post_image = models.ImageField(
