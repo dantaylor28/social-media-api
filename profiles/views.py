@@ -1,9 +1,9 @@
 from django.shortcuts import render
+from django.db.models import Count
 from .models import Profile
 from .serializers import ProfileSerializer
 from socialmediaapi.permissions import IsOwnerOrReadOnly
 from rest_framework import generics
-from django.db.models import Count
 
 class ProfileListView(generics.ListAPIView):
     """

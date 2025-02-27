@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.db.models import Count
 from .models import Post
 from .serializers import PostSerializer
 from socialmediaapi.permissions import IsOwnerOrReadOnly
@@ -10,7 +11,10 @@ class PostListView(generics.ListCreateAPIView):
     if you are signed in and authenticated
     """
     serializer_class = PostSerializer
-    queryset = Post.objects.all().order_by('-uploaded_at')
+    queryset = Post.objects.annotate(
+        num_of_pins=Count('pins', distinct=True),
+        num_of_comments=Count('comment', distinct=True)
+    ).order_by('-uploaded_at')
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -22,4 +26,7 @@ class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
     """
     serializer_class = PostSerializer
     permission_classes = [IsOwnerOrReadOnly]
-    queryset = Post.objects.all()
+    queryset = Post.objects.annotate(
+        num_of_pins=Count('pins', distinct=True),
+        num_of_comments=Count('comment', distinct=True)
+    ).order_by('-uploaded_at')
