@@ -1,8 +1,9 @@
 from django.shortcuts import render
+from django_filters.rest_framework import DjangoFilterBackend
 from .models import Comment
 from .serializers import CommentSerializer, CommentDetailSerializer
 from socialmediaapi.permissions import IsOwnerOrReadOnly
-from rest_framework import generics
+from rest_framework import generics, filters
 
 class CommentListView(generics.ListCreateAPIView):
     """
@@ -11,6 +12,13 @@ class CommentListView(generics.ListCreateAPIView):
     """
     serializer_class = CommentSerializer
     queryset = Comment.objects.all()
+
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.OrderingFilter
+    ]
+
+    filterset_fields = ['post', 'owner']
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
