@@ -11,6 +11,21 @@ class ProfileSerializer(serializers.ModelSerializer):
     num_of_followers = serializers.ReadOnlyField()
     num_of_pinned_posts = serializers.ReadOnlyField()
 
+    def validate_profile_image(self, value):
+        if value.size > 1024 * 1024 * 2:
+            raise serializers.ValidationError(
+                'Image files cannot be larger than 2mb'
+            )
+        if value.image.width > 4096:
+            raise serializers.ValidationError(
+                'Image width cannot be larger than 4096px'
+            )
+        if value.image.height > 4096:
+            raise serializers.ValidationError(
+                'Image height cannot be larger than 4096px'
+            )
+        return value
+
     def get_is_profile_owner(self, obj):
         request = self.context['request']
         return request.user == obj.owner
@@ -30,5 +45,5 @@ class ProfileSerializer(serializers.ModelSerializer):
             'id', 'name', 'location', 'bio', 'owner',
             'is_profile_owner', 'created_at', 'updated_at',
             'profile_image', 'following_id', 'num_of_posts',
-            'num_of_pinned_posts', 'num_of_following', 'num_of_followers'
+            'num_of_pinned_posts', 'num_of_followers', 'num_of_following'
         ]
