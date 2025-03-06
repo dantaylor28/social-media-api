@@ -3,6 +3,11 @@ from .models import CommentLike
 from django.db import IntegrityError
 
 class CommentLikeSerializer(serializers.ModelSerializer):
+    """
+    The comment_text field displays the comment text. An integrity
+    error is raised if an attempt is made to like a comment more
+    than one time.
+    """
     owner = serializers.ReadOnlyField(source='owner.username')
     comment_text = serializers.ReadOnlyField(source='comment.text')
 

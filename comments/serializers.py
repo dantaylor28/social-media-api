@@ -3,6 +3,12 @@ from rest_framework import serializers
 from .models import Comment
 
 class CommentSerializer(serializers.ModelSerializer):
+    """
+    Multiple extra fields have been added including the post title,
+    a boolean on whether the current user is the comment owner. Functions
+    are present to display date and time in a more user friendly
+    format.
+    """
     owner = serializers.ReadOnlyField(source='owner.username')
     profile_id = serializers.ReadOnlyField(source='owner.profile.id')
     profile_image = serializers.ReadOnlyField(

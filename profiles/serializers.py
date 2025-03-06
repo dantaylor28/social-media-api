@@ -4,6 +4,11 @@ from .models import Profile
 from followers.models import Follower
 
 class ProfileSerializer(serializers.ModelSerializer):
+    """
+    Extra fields include the num_of_followers/following/
+    posts of a user. Image validation ensures profile images
+    do not exceed 2mb file size and 4096px height or width.
+    """
     owner = serializers.ReadOnlyField(source='owner.username')
     is_profile_owner = serializers.SerializerMethodField()
     following_id = serializers.SerializerMethodField()
