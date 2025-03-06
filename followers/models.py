@@ -23,7 +23,7 @@ class Follower(models.Model):
         unique_together = ['owner', 'followed']
 
     def __str__(self):
-        return f"{self.followed} followed by {self.owner}"
+        return f"{self.followed} | followed by: {self.owner}"
 
 # Handles self following attempts and raises IntegrityError if attempted   
 @receiver(pre_save, sender=Follower)

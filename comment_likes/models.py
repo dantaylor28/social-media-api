@@ -18,4 +18,4 @@ class CommentLike(models.Model):
         unique_together = ['owner', 'comment']
 
     def __str__(self):
-        return f"{self.comment} liked by {self.owner}"
+        return f"{self.comment} | liked by: {self.owner}"
