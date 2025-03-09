@@ -16,7 +16,7 @@ class Post(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     post_image = models.ImageField(
-        upload_to='images/', default='../placeholder_post_pic_x9ygad', blank=True
+        upload_to='images/', default='../placeholder_post_pic_x9ygad'
     )
 
     class Meta:
