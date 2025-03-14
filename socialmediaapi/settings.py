@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
 
 if os.path.exists('env.py'):
     import env
@@ -49,6 +50,7 @@ REST_USE_JWT = True
 JWT_AUTH_SECURE = True
 JWT_AUTH_COOKIE = 'my-app-auth'
 JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
+JWT_AUTH_SAMESITE = 'None'
 
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'socialmediaapi.serializers.CurrentUserSerializer'
@@ -62,9 +64,11 @@ REST_AUTH_SERIALIZERS = {
 SECRET_KEY = 'django-insecure-8kqqfgm83ls-__j=%)f&h-ckdr6@s69e11f&sb2(ht0-r7m*d$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = 'DEV' in os.environ
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '127.0.0.1', 'localhost'
+]
 
 
 # Application definition
@@ -112,6 +116,15 @@ MIDDLEWARE = [
     'allauth.account.middleware.AccountMiddleware',
 ]
 
+CORS_ALLOWED_ORIGINS = []
+if 'CLIENT_ORIGIN' in os.environ:
+    CORS_ALLOWED_ORIGINS.append(os.environ.get('CLIENT_ORIGIN'))
+
+if 'CLIENT_ORIGIN_DEV' in os.environ:
+    CORS_ALLOWED_ORIGINS.append(os.environ.get('CLIENT_ORIGIN_DEV'))
+
+CORS_ALLOW_CREDENTIALS = True
+
 ROOT_URLCONF = 'socialmediaapi.urls'
 
 TEMPLATES = [
@@ -136,12 +149,17 @@ WSGI_APPLICATION = 'socialmediaapi.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if 'DEV' in os.environ:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+    }
 
 
 # Password validation
