@@ -34,11 +34,16 @@ REST_FRAMEWORK = {
         'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
     'DATETIME_FORMAT': '%d %B %Y',
-    'DEFAULT_AUTHENTICATION_CLASSES': [(
-        'rest_framework.authentication.SessionAuthentication'
-        if 'DEV' in os.environ
-        else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
-    )]
+    # 'DEFAULT_AUTHENTICATION_CLASSES': [(
+    #     'rest_framework.authentication.SessionAuthentication'
+    #     if 'DEV' in os.environ
+    #     else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
+    # )]
+
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+    'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+    'rest_framework.authentication.SessionAuthentication',
+]
 }
 
 if 'DEV' not in os.environ:
