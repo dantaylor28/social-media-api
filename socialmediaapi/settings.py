@@ -37,9 +37,9 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [(
         'rest_framework.authentication.SessionAuthentication'
         if 'DEV' in os.environ
-        # else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
+        else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
         # Test to fix sign in error
-        else 'dj_rest_auth.authentication.AllAuthJWTAuthentication'
+        # else 'dj_rest_auth.authentication.AllAuthJWTAuthentication'
     )]
 }
 
@@ -53,6 +53,7 @@ JWT_AUTH_SECURE = True
 JWT_AUTH_COOKIE = 'my-app-auth'
 JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
 JWT_AUTH_SAMESITE = 'None'
+JWT_AUTH_HTTPONLY = True
 
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'socialmediaapi.serializers.CurrentUserSerializer'
@@ -119,12 +120,14 @@ MIDDLEWARE = [
     'allauth.account.middleware.AccountMiddleware',
 ]
 
-CORS_ALLOWED_ORIGINS = []
-if 'CLIENT_ORIGIN' in os.environ:
-    CORS_ALLOWED_ORIGINS.append(os.environ.get('CLIENT_ORIGIN'))
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+# if 'CLIENT_ORIGIN' in os.environ:
+#     CORS_ALLOWED_ORIGINS.append(os.environ.get('CLIENT_ORIGIN'))
 
-if 'CLIENT_ORIGIN_DEV' in os.environ:
-    CORS_ALLOWED_ORIGINS.append(os.environ.get('CLIENT_ORIGIN_DEV'))
+# if 'CLIENT_ORIGIN_DEV' in os.environ:
+#     CORS_ALLOWED_ORIGINS.append(os.environ.get('CLIENT_ORIGIN_DEV'))
 
 CORS_ALLOW_CREDENTIALS = True
 
