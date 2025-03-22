@@ -51,7 +51,7 @@ REST_FRAMEWORK = {
         if 'DEV' in os.environ
         # else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
         # Test to fix sign in error
-        else 'dj_rest_auth.authentication.AllAuthJWTAuthentication'
+        else 'rest_framework_simplejwt.authentication.JWTAuthentication'
     )]
 }
 
