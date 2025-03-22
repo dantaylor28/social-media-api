@@ -38,6 +38,14 @@ SIMPLE_JWT = {
     "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
 }
 
+# test code
+REST_USE_JWT = True
+JWT_AUTH_COOKIE = 'my-app-auth'  # Access Token Cookie
+JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'  # Refresh Token Cookie
+JWT_AUTH_SAMESITE = 'None'
+JWT_AUTH_HTTPONLY = True
+JWT_AUTH_SECURE = False  # Set to True in production with HTTPS
+
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
@@ -60,16 +68,23 @@ if 'DEV' not in os.environ:
          'rest_framework.renderers.JSONRenderer',
      ]
 
-REST_USE_JWT = True
-JWT_AUTH_SECURE = True
-JWT_AUTH_COOKIE = 'my-app-auth'
-JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
-JWT_AUTH_SAMESITE = 'None'
-JWT_AUTH_HTTPONLY = True
+# REST_USE_JWT = True
+# JWT_AUTH_SECURE = True
+# JWT_AUTH_COOKIE = 'my-app-auth'
+# JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
+# JWT_AUTH_SAMESITE = 'None'
+# JWT_AUTH_HTTPONLY = True
 
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'socialmediaapi.serializers.CurrentUserSerializer'
 }
+
+# most test code
+CORS_ALLOW_CREDENTIALS = True
+CSRF_COOKIE_SECURE = False  # Only False for local development
+SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
+CSRF_COOKIE_HTTPONLY = True
+CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"]
 
 
 # Quick-start development settings - unsuitable for production
