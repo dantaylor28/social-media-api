@@ -14,7 +14,6 @@ from pathlib import Path
 import os
 import dj_database_url
 from datetime import timedelta
-from rest_framework_simplejwt.authentication import JWTAuthentication
 
 if os.path.exists('env.py'):
     import env
@@ -50,15 +49,11 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [(
         'rest_framework.authentication.SessionAuthentication'
         if 'DEV' in os.environ
-        else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
+        # else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
         # Test to fix sign in error
-        # else 'dj_rest_auth.authentication.AllAuthJWTAuthentication'
+        else 'dj_rest_auth.authentication.AllAuthJWTAuthentication'
     )]
 }
-
-REST_FRAMEWORK["DEFAULT_AUTHENTICATION_CLASSES"] = [
-    JWTAuthentication,  # Use JWT for authentication
-]
 
 if 'DEV' not in os.environ:
      REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = [
