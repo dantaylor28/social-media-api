@@ -44,7 +44,7 @@ JWT_AUTH_COOKIE = 'my-app-auth'  # Access Token Cookie
 JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'  # Refresh Token Cookie
 JWT_AUTH_SAMESITE = 'None'
 JWT_AUTH_HTTPONLY = True
-JWT_AUTH_SECURE = False  # Set to True in production with HTTPS
+JWT_AUTH_SECURE = True  # Set to True in production with HTTPS
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
