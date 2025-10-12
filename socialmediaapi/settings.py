@@ -79,13 +79,14 @@ REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'socialmediaapi.serializers.CurrentUserSerializer'
 }
 
-# most test code
 CORS_ALLOW_CREDENTIALS = True
-CSRF_COOKIE_SECURE = False  # Only False for local development
-SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
+CSRF_COOKIE_SECURE = True  # Only False for local development
+SESSION_COOKIE_SECURE = True  # Set to True in production with HTTPS
 CSRF_COOKIE_HTTPONLY = True
-CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"]
-
+CSRF_TRUSTED_ORIGINS = [
+    "https://social-media-api-9cgk.onrender.com",
+    "https://polaroid-frontend-4156avrkn-dans-projects-03c91cbb.vercel.app"
+]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
