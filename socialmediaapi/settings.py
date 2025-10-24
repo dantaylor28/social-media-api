@@ -27,24 +27,36 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# SIMPLE_JWT = {
+#     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),   # Short-lived access token
+#     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),     # Refresh token valid for 7 days
+#     "ROTATE_REFRESH_TOKENS": True,                   # Get a new refresh token with each refresh
+#     "BLACKLIST_AFTER_ROTATION": True,                # Prevent reuse of old refresh tokens
+#     "AUTH_HEADER_TYPES": ("Bearer",),                # Use Bearer token authentication
+#     "COOKIE_NAME": "my-app-auth",
+#     "REFRESH_COOKIE_NAME": "my-refresh-token",
+#     "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
+# }
+
+# # test code
+# REST_USE_JWT = True
+# JWT_AUTH_COOKIE = 'my-app-auth'  # Access Token Cookie
+# JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'  # Refresh Token Cookie
+# JWT_AUTH_SAMESITE = 'None'
+# JWT_AUTH_HTTPONLY = True
+# JWT_AUTH_SECURE = True  # Set to True in production with HTTPS
+
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),   # Short-lived access token
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),     # Refresh token valid for 7 days
-    "ROTATE_REFRESH_TOKENS": True,                   # Get a new refresh token with each refresh
-    "BLACKLIST_AFTER_ROTATION": True,                # Prevent reuse of old refresh tokens
-    "AUTH_HEADER_TYPES": ("Bearer",),                # Use Bearer token authentication
-    "COOKIE_NAME": "my-app-auth",
-    "REFRESH_COOKIE_NAME": "my-refresh-token",
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
+    "AUTH_HEADER_TYPES": ("Bearer",),
     "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
 }
 
-# test code
-REST_USE_JWT = True
-JWT_AUTH_COOKIE = 'my-app-auth'  # Access Token Cookie
-JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'  # Refresh Token Cookie
-JWT_AUTH_SAMESITE = 'None'
-JWT_AUTH_HTTPONLY = True
-JWT_AUTH_SECURE = True  # Set to True in production with HTTPS
+REST_USE_JWT = True  # This ensures dj-rest-auth uses JWT instead of sessions
+
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
@@ -67,13 +79,6 @@ if 'DEV' not in os.environ:
      REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = [
          'rest_framework.renderers.JSONRenderer',
      ]
-
-# REST_USE_JWT = True
-# JWT_AUTH_SECURE = True
-# JWT_AUTH_COOKIE = 'my-app-auth'
-# JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
-# JWT_AUTH_SAMESITE = 'None'
-# JWT_AUTH_HTTPONLY = True
 
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'socialmediaapi.serializers.CurrentUserSerializer'
