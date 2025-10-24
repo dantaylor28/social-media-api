@@ -149,7 +149,9 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
+    "http://localhost:5173",  # Vite dev server
+    "http://127.0.0.1:5173",
+    "https://polaroid-frontend-4156avrkn-dans-projects-03c91cbb.vercel.app",  # deployed frontend
 ]
 # if 'CLIENT_ORIGIN' in os.environ:
 #     CORS_ALLOWED_ORIGINS.append(os.environ.get('CLIENT_ORIGIN'))
