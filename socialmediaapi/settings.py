@@ -18,6 +18,8 @@ from datetime import timedelta
 if os.path.exists('env.py'):
     import env
 
+REST_USE_JWT = True # This ensures dj-rest-auth uses JWT instead of sessions
+
 CLOUDINARY_STORAGE = {
     'CLOUDINARY_URL': os.environ.get('CLOUDINARY_URL')
 }
@@ -27,25 +29,6 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SIMPLE_JWT = {
-#     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),   # Short-lived access token
-#     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),     # Refresh token valid for 7 days
-#     "ROTATE_REFRESH_TOKENS": True,                   # Get a new refresh token with each refresh
-#     "BLACKLIST_AFTER_ROTATION": True,                # Prevent reuse of old refresh tokens
-#     "AUTH_HEADER_TYPES": ("Bearer",),                # Use Bearer token authentication
-#     "COOKIE_NAME": "my-app-auth",
-#     "REFRESH_COOKIE_NAME": "my-refresh-token",
-#     "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
-# }
-
-# # test code
-# REST_USE_JWT = True
-# JWT_AUTH_COOKIE = 'my-app-auth'  # Access Token Cookie
-# JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'  # Refresh Token Cookie
-# JWT_AUTH_SAMESITE = 'None'
-# JWT_AUTH_HTTPONLY = True
-# JWT_AUTH_SECURE = True  # Set to True in production with HTTPS
-
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
@@ -54,9 +37,6 @@ SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("Bearer",),
     "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
 }
-
-REST_USE_JWT = True  # This ensures dj-rest-auth uses JWT instead of sessions
-
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
@@ -69,15 +49,6 @@ REST_FRAMEWORK = {
         'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
     'DATETIME_FORMAT': '%d %B %Y',
-    # Hopefully delete this later..
-    # 'DEFAULT_AUTHENTICATION_CLASSES': [(
-    #     'rest_framework.authentication.SessionAuthentication'
-    #     if 'DEV' in os.environ
-    #     # else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
-    #     # Test to fix sign in error
-    #     else 'rest_framework_simplejwt.authentication.JWTAuthentication'
-    # )]
-    
 }
 
 if 'DEV' not in os.environ:
@@ -163,13 +134,6 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5173",
     "https://polaroid-frontend-4156avrkn-dans-projects-03c91cbb.vercel.app",  # deployed frontend
 ]
-# if 'CLIENT_ORIGIN' in os.environ:
-#     CORS_ALLOWED_ORIGINS.append(os.environ.get('CLIENT_ORIGIN'))
-
-# if 'CLIENT_ORIGIN_DEV' in os.environ:
-#     CORS_ALLOWED_ORIGINS.append(os.environ.get('CLIENT_ORIGIN_DEV'))
-
-CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'socialmediaapi.urls'
 
