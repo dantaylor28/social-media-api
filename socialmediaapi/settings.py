@@ -1,6 +1,3 @@
-REST_USE_JWT = True # This ensures dj-rest-auth uses JWT instead of sessions
-REST_AUTH_TOKEN_MODEL = None # May be able to get rid of this later when auth works
-
 from pathlib import Path
 import os
 import dj_database_url
@@ -8,6 +5,14 @@ from datetime import timedelta
 
 if os.path.exists('env.py'):
     import env
+
+if 'DEV' in os.environ:
+    JWT_AUTH_SECURE = False
+    JWT_AUTH_SAMESITE = 'Lax'
+else:
+    JWT_AUTH_SECURE = True
+    JWT_AUTH_SAMESITE = 'None'
+
 
 CLOUDINARY_STORAGE = {
     'CLOUDINARY_URL': os.environ.get('CLOUDINARY_URL')
@@ -17,6 +22,10 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+REST_USE_JWT = True # This ensures dj-rest-auth uses JWT instead of sessions
+
+REST_AUTH_TOKEN_MODEL = None
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
@@ -29,7 +38,7 @@ SIMPLE_JWT = {
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
@@ -40,18 +49,26 @@ REST_FRAMEWORK = {
     'DATETIME_FORMAT': '%d %B %Y',
 }
 
+JWT_AUTH_COOKIE = 'access_token'
+JWT_AUTH_REFRESH_COOKIE = 'refresh_token'
+
+JWT_AUTH_SAMESITE = 'None'
+
+
 if 'DEV' not in os.environ:
      REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = [
          'rest_framework.renderers.JSONRenderer',
      ]
 
 REST_AUTH_SERIALIZERS = {
-    'USER_DETAILS_SERIALIZER': 'socialmediaapi.serializers.CurrentUserSerializer'
+    'LOGIN_SERIALIZER': 'dj_rest_auth.serializers.JWTSerializer',
+    'TOKEN_SERIALIZER': 'dj_rest_auth.serializers.JWTSerializer',
+    'USER_DETAILS_SERIALIZER': 'socialmediaapi.serializers.CurrentUserSerializer',
 }
 
 CORS_ALLOW_CREDENTIALS = True
-CSRF_COOKIE_SECURE = True  # Only False for local development
-SESSION_COOKIE_SECURE = True  # Set to True in production with HTTPS
+CSRF_COOKIE_SECURE = False  # Only False for local development
+SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
 CSRF_TRUSTED_ORIGINS = [
     "https://social-media-api-9cgk.onrender.com",
     "https://polaroid-frontend-4156avrkn-dans-projects-03c91cbb.vercel.app"
@@ -86,6 +103,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'rest_framework.authtoken',
+    'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'dj_rest_auth',
     'django.contrib.sites',
@@ -201,3 +219,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# --- DEBUG CHECK ---
+print("⚙️ DEBUG SETTINGS CHECK:")
+print("  REST_USE_JWT =", REST_USE_JWT)
+print("  REST_AUTH_TOKEN_MODEL =", REST_AUTH_TOKEN_MODEL)
+print("  REST_AUTH_SERIALIZERS =", REST_AUTH_SERIALIZERS)
+print("  DEFAULT_AUTHENTICATION_CLASSES =", REST_FRAMEWORK.get('DEFAULT_AUTHENTICATION_CLASSES'))
+

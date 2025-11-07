@@ -18,18 +18,58 @@ from django.contrib import admin
 from django.urls import path, include
 from .views import home_route
 from rest_framework_simplejwt.views import TokenRefreshView
+from .views import CustomJWTLoginView
+
+# urlpatterns = [
+#     path('', home_route),
+#     path('admin/', admin.site.urls),
+#     path('api-auth/', include('rest_framework.urls')),
+    
+#     # Force JWT login view
+#     path('dj-rest-auth/login/', CustomJWTLoginView.as_view(), name='jwt_login'),
+#     path('dj-rest-auth/', include('dj_rest_auth.urls')),
+#     path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
+
+#     path('dj-rest-auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
+#     path('', include('posts.urls')),
+#     path('', include('profiles.urls')),
+#     path('', include('pins.urls')),
+#     path('', include('comments.urls')),
+#     path('', include('followers.urls')),
+#     path('', include('comment_likes.urls')),
+#     path('', include('categories.urls')),
+# ]
+
+
+from django.contrib import admin
+from django.urls import path, include
+from .views import home_route, CustomJWTLoginView
+from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
+    # Home route
     path('', home_route),
+
+    # Admin
     path('admin/', admin.site.urls),
+
+    # Browsable API login
     path('api-auth/', include('rest_framework.urls')),
+
+    # ✅ Force JWT login view override (must come BEFORE the general dj-rest-auth include)
+    path('dj-rest-auth/login/', CustomJWTLoginView.as_view(), name='custom_login'),
+
+    # ✅ Include all default dj-rest-auth endpoints (logout, password reset, etc.)
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
-    path(
-        'dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')
-    ),
-    # Test to fix sign in errors
+
+    # ✅ Registration endpoints
+    path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
+
+    # ✅ JWT refresh endpoint (for refreshing access tokens)
     path('dj-rest-auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
+    # ✅ Your app URLs
     path('', include('posts.urls')),
     path('', include('profiles.urls')),
     path('', include('pins.urls')),
@@ -38,3 +78,4 @@ urlpatterns = [
     path('', include('comment_likes.urls')),
     path('', include('categories.urls')),
 ]
+
