@@ -46,6 +46,18 @@ from django.contrib import admin
 from django.urls import path, include
 from .views import home_route, CustomJWTLoginView
 from rest_framework_simplejwt.views import TokenRefreshView
+from django.http import JsonResponse
+from django.conf import settings
+
+def debug_login(request):
+    """Temporary endpoint to inspect live environment settings. Delete later"""
+    return JsonResponse({
+        "REST_USE_JWT": getattr(settings, "REST_USE_JWT", None),
+        "SITE_ID": getattr(settings, "SITE_ID", None),
+        "AUTH_USER_MODEL": getattr(settings, "AUTH_USER_MODEL", None),
+        "DATABASES": list(settings.DATABASES.keys()),
+    })
+
 
 urlpatterns = [
     # Home route
@@ -68,6 +80,9 @@ urlpatterns = [
 
     # ✅ JWT refresh endpoint (for refreshing access tokens)
     path('dj-rest-auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
+    # Temporary debug route! delete this when login works 
+    path("debug-login/", debug_login),
 
     # ✅ Your app URLs
     path('', include('posts.urls')),
