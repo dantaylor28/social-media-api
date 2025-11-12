@@ -19,6 +19,7 @@ from django.urls import path, include
 from .views import home_route
 from rest_framework_simplejwt.views import TokenRefreshView
 from .views import CustomJWTLoginView
+from profiles.views import debug_login
 
 # urlpatterns = [
 #     path('', home_route),
@@ -103,5 +104,6 @@ urlpatterns = [
     path('', include('followers.urls')),
     path('', include('comment_likes.urls')),
     path('', include('categories.urls')),
+    path("debug-login/", debug_login), # Delete this and corresponding view later
 ]
 
