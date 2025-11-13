@@ -53,6 +53,14 @@ from django.contrib.auth.models import User
 from profiles.views import debug_login
 
 
+# def debug_login(request):
+#     """Temporary endpoint to inspect live environment settings. Delete later"""
+#     return JsonResponse({
+#         "REST_USE_JWT": getattr(settings, "REST_USE_JWT", None),
+#         "SITE_ID": getattr(settings, "SITE_ID", None),
+#         "AUTH_USER_MODEL": getattr(settings, "AUTH_USER_MODEL", None),
+#         "DATABASES": list(settings.DATABASES.keys()),
+#     })
 
 # # Also delete this when log in is working
 # def create_temp_user(request):
