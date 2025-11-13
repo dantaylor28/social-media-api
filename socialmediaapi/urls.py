@@ -50,22 +50,16 @@ from rest_framework_simplejwt.views import TokenRefreshView
 from django.http import JsonResponse
 from django.conf import settings
 from django.contrib.auth.models import User
+from profiles.views import debug_login
 
-def debug_login(request):
-    """Temporary endpoint to inspect live environment settings. Delete later"""
-    return JsonResponse({
-        "REST_USE_JWT": getattr(settings, "REST_USE_JWT", None),
-        "SITE_ID": getattr(settings, "SITE_ID", None),
-        "AUTH_USER_MODEL": getattr(settings, "AUTH_USER_MODEL", None),
-        "DATABASES": list(settings.DATABASES.keys()),
-    })
 
-# Also delete this when log in is working
-def create_temp_user(request):
-    if not User.objects.filter(username="dan").exists():
-        user = User.objects.create_user(username="dan", password="esporta12321", email="dan@example.com")
-        return JsonResponse({"created": True, "user": user.username})
-    return JsonResponse({"created": False, "message": "User already exists"})
+
+# # Also delete this when log in is working
+# def create_temp_user(request):
+#     if not User.objects.filter(username="dan").exists():
+#         user = User.objects.create_user(username="dan", password="esporta12321", email="dan@example.com")
+#         return JsonResponse({"created": True, "user": user.username})
+#     return JsonResponse({"created": False, "message": "User already exists"})
 
 
 
