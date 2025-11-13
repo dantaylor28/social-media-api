@@ -95,7 +95,7 @@ urlpatterns = [
 
     # Temporary debug routes! delete these when login works 
     path("debug-login/", debug_login),
-    path("create-temp-user/", create_temp_user),
+    # path("create-temp-user/", create_temp_user),
 
 
     # ✅ Your app URLs
