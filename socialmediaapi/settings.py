@@ -38,7 +38,7 @@ SIMPLE_JWT = {
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
@@ -48,12 +48,6 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10,
     'DATETIME_FORMAT': '%d %B %Y',
 }
-
-JWT_AUTH_COOKIE = 'access_token'
-JWT_AUTH_REFRESH_COOKIE = 'refresh_token'
-
-JWT_AUTH_SAMESITE = 'None'
-
 
 if 'DEV' not in os.environ:
      REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = [
