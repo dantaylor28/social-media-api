@@ -6,14 +6,6 @@ from datetime import timedelta
 if os.path.exists('env.py'):
     import env
 
-if 'DEV' in os.environ:
-    JWT_AUTH_SECURE = False
-    JWT_AUTH_SAMESITE = 'Lax'
-else:
-    JWT_AUTH_SECURE = True
-    JWT_AUTH_SAMESITE = 'None'
-
-
 CLOUDINARY_STORAGE = {
     'CLOUDINARY_URL': os.environ.get('CLOUDINARY_URL')
 }
@@ -24,6 +16,7 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 REST_USE_JWT = True # This ensures dj-rest-auth uses JWT instead of sessions
+JWT_AUTH_COOKIE = None  # ensure dj-rest-auth NEVER tries cookies
 REST_AUTH_TOKEN_MODEL = None
 
 REST_AUTH_SERIALIZERS = {
@@ -58,7 +51,6 @@ if 'DEV' not in os.environ:
      ]
 
 REST_AUTH_SERIALIZERS = {
-    'LOGIN_SERIALIZER': 'dj_rest_auth.serializers.JWTSerializer',
     'TOKEN_SERIALIZER': 'dj_rest_auth.serializers.JWTSerializer',
     'USER_DETAILS_SERIALIZER': 'socialmediaapi.serializers.CurrentUserSerializer',
 }
