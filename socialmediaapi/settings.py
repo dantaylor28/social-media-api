@@ -16,7 +16,7 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 REST_USE_JWT = True # This ensures dj-rest-auth uses JWT instead of sessions
-JWT_AUTH_COOKIE = None  # ensure dj-rest-auth NEVER tries cookies
+JWT_AUTH_COOKIE = None  # ensure dj-rest-auth never tries cookies
 REST_AUTH_TOKEN_MODEL = None
 
 REST_AUTH_SERIALIZERS = {
@@ -209,11 +209,4 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# --- DEBUG CHECK ---
-print("⚙️ DEBUG SETTINGS CHECK:")
-print("  REST_USE_JWT =", REST_USE_JWT)
-print("  REST_AUTH_TOKEN_MODEL =", REST_AUTH_TOKEN_MODEL)
-print("  REST_AUTH_SERIALIZERS =", REST_AUTH_SERIALIZERS)
-print("  DEFAULT_AUTHENTICATION_CLASSES =", REST_FRAMEWORK.get('DEFAULT_AUTHENTICATION_CLASSES'))
 

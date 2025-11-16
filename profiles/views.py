@@ -1,43 +1,9 @@
-from django.shortcuts import render
 from django.db.models import Count
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Profile
 from .serializers import ProfileSerializer
 from socialmediaapi.permissions import IsOwnerOrReadOnly
 from rest_framework import generics, filters
-from django.http import JsonResponse
-from django.contrib.auth import authenticate
-from django.views.decorators.csrf import csrf_exempt
-import traceback
-
-# Delete thius view later
-@csrf_exempt
-def debug_login(request):
-    try:
-        if request.method != "POST":
-            return JsonResponse({"error": "POST only"}, status=405)
-
-        import json
-        body = json.loads(request.body)
-        username = body.get("username")
-        password = body.get("password")
-
-        user = authenticate(username=username, password=password)
-
-        if user is None:
-            return JsonResponse({"error": "Invalid credentials"}, status=400)
-
-        return JsonResponse({
-            "success": True,
-            "username": user.username,
-            "email": user.email,
-            "is_active": user.is_active,
-        })
-    except Exception as e:
-        print("🔥 DEBUG LOGIN ERROR:", str(e))
-        traceback.print_exc()
-        return JsonResponse({"error": str(e)}, status=500)
-
 
 class ProfileListView(generics.ListAPIView):
     """

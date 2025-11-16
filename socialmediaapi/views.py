@@ -1,17 +1,13 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from dj_rest_auth.views import LoginView
+from rest_framework_simplejwt.tokens import RefreshToken
 
 @api_view()
 def home_route(request):
     return Response({
         'message': 'Welcome to my social media API!'
     })
-
-# socialmediaapi/views.py
-
-from dj_rest_auth.views import LoginView
-from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.response import Response
 
 class CustomJWTLoginView(LoginView):
     """
