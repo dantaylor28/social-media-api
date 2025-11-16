@@ -19,10 +19,6 @@ REST_USE_JWT = True # This ensures dj-rest-auth uses JWT instead of sessions
 JWT_AUTH_COOKIE = None  # ensure dj-rest-auth never tries cookies
 REST_AUTH_TOKEN_MODEL = None
 
-REST_AUTH_SERIALIZERS = {
-    'LOGIN_SERIALIZER': 'dj_rest_auth.serializers.JWTSerializer',
-}
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -51,13 +47,14 @@ if 'DEV' not in os.environ:
      ]
 
 REST_AUTH_SERIALIZERS = {
+    'LOGIN_SERIALIZER': 'dj_rest_auth.serializers.JWTSerializer',
     'TOKEN_SERIALIZER': 'dj_rest_auth.serializers.JWTSerializer',
     'USER_DETAILS_SERIALIZER': 'socialmediaapi.serializers.CurrentUserSerializer',
 }
 
 CORS_ALLOW_CREDENTIALS = True
-CSRF_COOKIE_SECURE = False  # Only False for local development
-SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
+CSRF_COOKIE_SECURE = True  # Only False for local development
+SESSION_COOKIE_SECURE = True  # Set to True in production with HTTPS
 CSRF_TRUSTED_ORIGINS = [
     "https://social-media-api-9cgk.onrender.com",
     "https://polaroid-frontend-4156avrkn-dans-projects-03c91cbb.vercel.app"
@@ -70,8 +67,7 @@ CSRF_TRUSTED_ORIGINS = [
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = 'DEV' in os.environ
-DEBUG = True
+DEBUG = 'DEV' in os.environ
 
 ALLOWED_HOSTS = [
     'localhost', '127.0.0.1',
