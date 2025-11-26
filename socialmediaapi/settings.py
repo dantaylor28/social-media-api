@@ -60,6 +60,11 @@ CSRF_TRUSTED_ORIGINS = [
     "https://polaroid-frontend-4156avrkn-dans-projects-03c91cbb.vercel.app"
 ]
 
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_USERNAME_REQUIRED = True
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
