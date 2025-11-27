@@ -46,6 +46,10 @@ if 'DEV' not in os.environ:
          'rest_framework.renderers.JSONRenderer',
      ]
 
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'socialmediaapi.serializers.CustomRegisterSerializer',
+}
+
 REST_AUTH_SERIALIZERS = {
     'LOGIN_SERIALIZER': 'dj_rest_auth.serializers.JWTSerializer',
     'TOKEN_SERIALIZER': 'dj_rest_auth.serializers.JWTSerializer',

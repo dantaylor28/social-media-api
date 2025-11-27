@@ -14,6 +14,8 @@
 
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
+from dj_rest_auth.registration.serializers import RegisterSerializer
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 User = get_user_model()
 
@@ -24,3 +26,15 @@ class CurrentUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'email', 'first_name', 'last_name', 'profile_id', 'profile_image')
+
+class CustomRegisterSerializer(RegisterSerializer):
+    def save(self, request):
+        user = super().save(request)
+
+        # Return JWT tokens instead of old "key"
+        refresh = TokenObtainPairSerializer.get_token(user)
+
+        return {
+            "access": str(refresh.access_token),
+            "refresh": str(refresh)
+        }
