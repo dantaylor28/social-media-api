@@ -10,8 +10,8 @@ urlpatterns = [
     
     # Force JWT login view
     path('dj-rest-auth/login/', CustomJWTLoginView.as_view(), name='custom_login'),
-    path('dj-rest-auth/', include('dj_rest_auth.urls')), # Include all default dj-rest-auth endpoints (logout, password reset, etc.)
     path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
+    path('dj-rest-auth/', include('dj_rest_auth.urls')), # Include all default dj-rest-auth endpoints (logout, password reset, etc.)
     path('dj-rest-auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
     path('', include('posts.urls')),
