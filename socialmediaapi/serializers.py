@@ -29,6 +29,7 @@ class CurrentUserSerializer(serializers.ModelSerializer):
 
 class CustomRegisterSerializer(RegisterSerializer):
     def save(self, request):
+        print("CustomRegisterSerializer.save() called!")  # Debug
         user = super().save(request)
 
         # Return JWT tokens instead of old "key"
