@@ -27,15 +27,15 @@ class CurrentUserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'username', 'email', 'first_name', 'last_name', 'profile_id', 'profile_image')
 
-class CustomRegisterSerializer(RegisterSerializer):
-    def save(self, request):
-        print("CustomRegisterSerializer.save() called!")  # Debug
-        user = super().save(request)
+# class CustomRegisterSerializer(RegisterSerializer):
+#     def save(self, request):
+#         print("CustomRegisterSerializer.save() called!")  # Debug
+#         user = super().save(request)
 
-        # Return JWT tokens instead of old "key"
-        refresh = TokenObtainPairSerializer.get_token(user)
+#         # Return JWT tokens instead of old "key"
+#         refresh = TokenObtainPairSerializer.get_token(user)
 
-        return {
-            "access": str(refresh.access_token),
-            "refresh": str(refresh)
-        }
+#         return {
+#             "access": str(refresh.access_token),
+#             "refresh": str(refresh)
+#         }

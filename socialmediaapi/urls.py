@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenRefreshView
 from .views import home_route, CustomJWTLoginView
+from .views import CustomRegisterView
 
 urlpatterns = [
     path('', home_route),
@@ -10,7 +11,7 @@ urlpatterns = [
     
     # Force JWT login view
     path('dj-rest-auth/login/', CustomJWTLoginView.as_view(), name='custom_login'),
-    path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
+    path('dj-rest-auth/registration/', CustomRegisterView.as_view(), name="custom_register"),
     path('dj-rest-auth/', include('dj_rest_auth.urls')), # Include all default dj-rest-auth endpoints (logout, password reset, etc.)
     path('dj-rest-auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
