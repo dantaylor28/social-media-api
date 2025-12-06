@@ -35,18 +35,21 @@ class CustomJWTLoginView(LoginView):
     
 
 class CustomRegisterView(RegisterView):
-    def create(self, request, *args, **kwargs):
-        # Use default behavior to create the user
-        response = super().create(request, *args, **kwargs)
-        user = self.user  # RegisterView sets self.user
 
-        # Generate JWT tokens
+    def create(self, request, *args, **kwargs):
+        # Run the original behaviour (creates user)
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save(request)  # This returns the created user
+
+        # Create JWT tokens
         refresh = RefreshToken.for_user(user)
 
         return Response({
             "access": str(refresh.access_token),
             "refresh": str(refresh),
             "user_id": user.id,
-            "username": user.username
+            "username": user.username,
+            "email": user.email
         }, status=status.HTTP_201_CREATED)
 
