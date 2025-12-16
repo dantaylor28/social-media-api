@@ -5,7 +5,10 @@ User = get_user_model()
 
 class CurrentUserSerializer(serializers.ModelSerializer):
     profile_id = serializers.ReadOnlyField(source='profile.id')
-    profile_image = serializers.ReadOnlyField(source='profile.image.url')
+    profile_image = serializers.ImageField(
+        source='profile.profile_image',
+        read_only=True
+    )
 
     class Meta:
         model = User
