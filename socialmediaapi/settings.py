@@ -46,15 +46,20 @@ if 'DEV' not in os.environ:
          'rest_framework.renderers.JSONRenderer',
      ]
 
-REST_AUTH_REGISTER_SERIALIZERS = {
-    'REGISTER_SERIALIZER': 'socialmediaapi.serializers.CustomRegisterSerializer',
-}
+# REST_AUTH_REGISTER_SERIALIZERS = {
+#     'REGISTER_SERIALIZER': 'socialmediaapi.serializers.CustomRegisterSerializer',
+# }
 
 REST_AUTH_SERIALIZERS = {
     'LOGIN_SERIALIZER': 'dj_rest_auth.serializers.JWTSerializer',
     'TOKEN_SERIALIZER': 'dj_rest_auth.serializers.JWTSerializer',
     'USER_DETAILS_SERIALIZER': 'socialmediaapi.serializers.CurrentUserSerializer',
 }
+
+REST_AUTH = {
+    'USER_DETAILS_SERIALIZER': 'socialmediaapi.serializers.CurrentUserSerializer',
+}
+
 
 CORS_ALLOW_CREDENTIALS = True
 CSRF_COOKIE_SECURE = True  # Only False for local development
