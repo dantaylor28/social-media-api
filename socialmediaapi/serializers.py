@@ -12,6 +12,17 @@ class CurrentUserSerializer(serializers.ModelSerializer):
         fields = ('id', 'username', 'email', 'first_name', 'last_name', 'profile_id', 'profile_image')
 
     def get_profile_image(self, obj):
+        request = self.context.get("request")
+
         if obj.profile.profile_image:
-            return obj.profile.profile_image.url
+            url = obj.profile.profile_image.url
+
+            # If already absolute url, return url
+            if url.startswith("http"):
+                return url
+        
+            # Otherwise build absolute url
+            if request:
+                return request.build_absolute_uri(url)
+
         return None
