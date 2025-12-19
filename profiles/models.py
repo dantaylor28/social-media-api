@@ -15,7 +15,7 @@ class Profile(models.Model):
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
     profile_image = models.ImageField(
-        upload_to='images/', default='../placeholder_profile_pic_z5brab'
+        upload_to='images/', default='https://res.cloudinary.com/deddv4phe/image/upload/v1711462986/placeholder_profile_pic_z5brab.png'
     )
 
     class Meta:
