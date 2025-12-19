@@ -11,18 +11,23 @@ class CurrentUserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'username', 'email', 'first_name', 'last_name', 'profile_id', 'profile_image')
 
-    def get_profile_image(self, obj):
-        request = self.context.get("request")
+    # def get_profile_image(self, obj):
+    #     request = self.context.get("request")
 
-        if obj.profile.profile_image:
-            url = obj.profile.profile_image.url
+    #     if obj.profile.profile_image:
+    #         url = obj.profile.profile_image.url
 
-            # If already absolute url, return url
-            if url.startswith("http"):
-                return url
+    #         # If already absolute url, return url
+    #         if url.startswith("http"):
+    #             return url
         
-            # Otherwise build absolute url
-            if request:
-                return request.build_absolute_uri(url)
+    #         # Otherwise build absolute url
+    #         if request:
+    #             return request.build_absolute_uri(url)
 
+    #     return None
+
+    def get_profile_image(self, obj):
+        if obj.profile.profile_image:
+            return obj.profile.profile_image.url
         return None

@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import signals
 from django.dispatch import receiver
+from cloudinary.models import CloudinaryField
 
 class Profile(models.Model):
     """
@@ -14,8 +15,9 @@ class Profile(models.Model):
     bio = models.TextField(blank=True)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
-    profile_image = models.ImageField(
-        upload_to='images/', default='https://res.cloudinary.com/deddv4phe/image/upload/v1711462986/placeholder_profile_pic_z5brab.png'
+    profile_image = CloudinaryField(
+        'image',
+        default='placeholder_profile_pic_z5brab'
     )
 
     class Meta:
