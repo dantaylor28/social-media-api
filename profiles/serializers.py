@@ -10,6 +10,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     do not exceed 2mb file size and 4096px height or width.
     """
     owner = serializers.ReadOnlyField(source='owner.username')
+    profile_image = serializers.SerializerMethodField()
     is_profile_owner = serializers.SerializerMethodField()
     following_id = serializers.SerializerMethodField()
     num_of_posts = serializers.ReadOnlyField()
@@ -52,6 +53,11 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     def get_created_at(self, obj):
         return naturalday(obj.created_at)
+    
+    def get_profile_image(self, obj):
+        if obj.profile_image:
+            return obj.profile_image.url
+        return None
 
     class Meta:
         model = Profile
