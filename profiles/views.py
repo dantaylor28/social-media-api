@@ -51,6 +51,8 @@ class ProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
     """
     serializer_class = ProfileSerializer
     permission_classes = [IsOwnerOrReadOnly]
+    lookup_field = "owner__username"
+    lookup_url_kwarg = "username"
     queryset = Profile.objects.annotate(
         num_of_posts=Count('owner__post', distinct=True),
         num_of_followers=Count('owner__followed', distinct=True),
