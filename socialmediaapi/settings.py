@@ -114,7 +114,7 @@ INSTALLED_APPS = [
     'corsheaders',
 
     'posts',
-    'profiles.apps.ProfilesConfig',
+    'profiles',
     'pins',
     'comments',
     'followers',
