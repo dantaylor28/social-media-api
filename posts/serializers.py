@@ -2,6 +2,7 @@ from django.contrib.humanize.templatetags.humanize import naturaltime
 from rest_framework import serializers
 from .models import Post
 from pins.models import Pin
+from tags.models import Tag
 
 class PostSerializer(serializers.ModelSerializer):
     """
@@ -16,8 +17,13 @@ class PostSerializer(serializers.ModelSerializer):
         source='owner.profile.profile_image.url'
     )
     is_post_owner = serializers.SerializerMethodField()
+    tags = serializers.ListField(
+        child=serializers.CharField(max_length=30),
+        write_only=True,
+        required=False
+    )
+    tags_display = serializers.SerializerMethodField(read_only=True)
     pinned_id = serializers.SerializerMethodField()
-    category_name = serializers.ReadOnlyField(source='category.name')
     num_of_pins = serializers.ReadOnlyField()
     num_of_comments = serializers.ReadOnlyField()
     updated_at = serializers.SerializerMethodField()
@@ -51,12 +57,39 @@ class PostSerializer(serializers.ModelSerializer):
         
     def get_updated_at(self, obj):
         return naturaltime(obj.updated_at)
+    
+    # Tag handling
+    def create(self, validated_data):
+        tags = validated_data.pop("tags", [])
+        post = super().create(validated_data)
+
+        self._handle_tags(post, tags)
+        return post
+    
+    def update(self, instance, validated_data):
+        tags = validated_data.pop("tags", None)
+        post = super().update(instance, validated_data)
+
+        if tags is not None:
+            post.tags.clear()
+            self._handle_tags(post, tags)
+        
+        return post
+    
+    def _handle_tags(self, post, tags):
+        for tag_name in tags:
+            tag_name = tag_name.strip().lower()
+            tag, _ = Tag.objects.get_or_create(name=tag_name)
+            post.tags.add(tag)
+
+    def get_tags_display(self, obj):
+        return [tag.name for tag in obj.tags.all()]
 
     class Meta:
         model = Post
         fields = [
             'id', 'title', 'caption', 'owner', 'is_post_owner',
-            'category', 'category_name', 'uploaded_at', 'updated_at',
-            'post_image', 'profile_id', 'profile_image', 'pinned_id',
-            'num_of_pins', 'num_of_comments'
+            'uploaded_at', 'updated_at', 'post_image', 'profile_id',
+            'profile_image', 'pinned_id', 'num_of_pins', 'num_of_comments',
+            'tags', 'tags_display',
         ]
