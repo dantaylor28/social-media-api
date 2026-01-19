@@ -22,8 +22,7 @@ class Migration(migrations.Migration):
                 ('uploaded_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('post_image', models.ImageField(default='../placeholder_post_pic_x9ygad', upload_to='images/')),
-                ('owner', models.ForeignKey(on_delete=django.db.mode
-ls.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('owner', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
                 ('tags', models.ManyToManyField(blank=True, related_name='posts', to='tags.tag')),
             ],
             options={
