@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from tags.models import Tag
 
 class Post(models.Model):
     """
@@ -11,7 +10,11 @@ class Post(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200, blank=True)
     caption = models.TextField(blank=True)
-    tags = models.ManyToManyField(Tag, related_name='posts', blank=True)
+    tags = models.ManyToManyField(
+    "tags.Tag",
+    related_name="posts",
+    blank=True
+)
     uploaded_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     post_image = models.ImageField(

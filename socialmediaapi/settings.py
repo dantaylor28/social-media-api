@@ -113,7 +113,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'corsheaders',
 
-    'tags',
+    'tags.apps.TagsConfig',
     'posts',
     'profiles',
     'pins',
