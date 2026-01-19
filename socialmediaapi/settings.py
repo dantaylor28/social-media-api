@@ -113,13 +113,13 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'corsheaders',
 
+    'tags',
     'posts',
     'profiles',
     'pins',
     'comments',
     'followers',
     'comment_likes',
-    'tags',
 ]
 
 SITE_ID = 1
