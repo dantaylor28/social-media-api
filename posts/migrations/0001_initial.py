@@ -10,6 +10,8 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
+        ('tags', '0001_initial'),
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
@@ -30,6 +32,3 @@ class Migration(migrations.Migration):
             },
         ),
     ]
-
-    # ('tags', '0001_initial'),
-    #     migrations.swappable_dependency(settings.AUTH_USER_MODEL),
