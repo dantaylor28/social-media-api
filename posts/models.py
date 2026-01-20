@@ -11,14 +11,15 @@ class Post(models.Model):
     title = models.CharField(max_length=200, blank=True)
     caption = models.TextField(blank=True)
     tags = models.ManyToManyField(
-    "tags.Tag",
-    related_name="posts",
-    blank=True
-)
+        "tags.Tag",
+        related_name="posts",
+        blank=True
+    )
     uploaded_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     post_image = models.ImageField(
-        upload_to='images/', default='../placeholder_post_pic_x9ygad'
+        upload_to='images/',
+        default='../placeholder_post_pic_x9ygad'
     )
 
     class Meta:
