@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from cloudinary.models import CloudinaryField
 
 class Post(models.Model):
     """
@@ -17,9 +18,9 @@ class Post(models.Model):
     )
     uploaded_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    post_image = models.ImageField(
-        upload_to='images/',
-        default='../placeholder_post_pic_x9ygad'
+    post_image = CloudinaryField(
+        'image',
+        default='placeholder_post_pic_x9ygad'
     )
 
     class Meta:
