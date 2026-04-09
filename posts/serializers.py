@@ -29,18 +29,10 @@ class PostSerializer(serializers.ModelSerializer):
     updated_at = serializers.SerializerMethodField()
 
     def validate_post_image(self, value):
-        if value.size > 1024 * 1024 * 2:
+        if value.size > 2 * 1024 * 1024:
             raise serializers.ValidationError(
-                'Image files cannot be larger than 2mb'
-            )
-        if value.image.width > 4096:
-            raise serializers.ValidationError(
-                'Image width cannot be larger than 4096px'
-            )
-        if value.image.height > 4096:
-            raise serializers.ValidationError(
-                'Image height cannot be larger than 4096px'
-            )
+                "Image files cannot be larger than 2MB"
+        )
         return value
 
     def get_is_post_owner(self, obj):
