@@ -12,6 +12,7 @@ class PostSerializer(serializers.ModelSerializer):
     exceed the maximum.
     """
     owner = serializers.ReadOnlyField(source='owner.username')
+    post_image = serializers.ReadOnlyField(source='post_image.url')
     profile_id = serializers.ReadOnlyField(source='owner.profile.id')
     profile_image = serializers.ReadOnlyField(
         source='owner.profile.profile_image.url'
