@@ -5,6 +5,7 @@ from .models import Post
 from .serializers import PostSerializer
 from socialmediaapi.permissions import IsOwnerOrReadOnly
 from rest_framework import generics, filters
+from rest_framework.parsers import MultiPartParser, FormParser
 
 class PostListView(generics.ListCreateAPIView):
     """
@@ -12,6 +13,7 @@ class PostListView(generics.ListCreateAPIView):
     if you are signed in and authenticated. Posts can be
     filtered, searched and ordered by numerous options.
     """
+    parser_classes = (MultiPartParser, FormParser)
     serializer_class = PostSerializer
     queryset = Post.objects.annotate(
         num_of_pins=Count('pins', distinct=True),

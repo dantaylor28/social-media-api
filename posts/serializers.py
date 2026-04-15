@@ -57,13 +57,29 @@ class PostSerializer(serializers.ModelSerializer):
         return naturaltime(obj.updated_at)
     
     # Tag handling
+    # def create(self, validated_data):
+    #     tags = validated_data.pop("tags", [])
+    #     post = super().create(validated_data)
+
+    #     self._handle_tags(post, tags)
+    #     return post
+    
     def create(self, validated_data):
+        print("VALIDATED DATA:", validated_data)
+        print("FILES:", self.context['request'].FILES)
+
         tags = validated_data.pop("tags", [])
-        post = super().create(validated_data)
+        image = validated_data.get("post_image", None)
+
+        post = Post.objects.create(**validated_data)
+
+        if image:
+            post.post_image = image
+            post.save()
 
         self._handle_tags(post, tags)
         return post
-    
+
     def update(self, instance, validated_data):
         tags = validated_data.pop("tags", None)
         post = super().update(instance, validated_data)
