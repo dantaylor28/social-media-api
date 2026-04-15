@@ -12,7 +12,7 @@ class PostSerializer(serializers.ModelSerializer):
     exceed the maximum.
     """
     owner = serializers.ReadOnlyField(source='owner.username')
-    post_image = serializers.ReadOnlyField(source='post_image.url')
+    post_image = serializers.SerializerMethodField()
     profile_id = serializers.ReadOnlyField(source='owner.profile.id')
     profile_image = serializers.ReadOnlyField(
         source='owner.profile.profile_image.url'
@@ -35,6 +35,11 @@ class PostSerializer(serializers.ModelSerializer):
                 "Image files cannot be larger than 2MB"
         )
         return value
+    
+    def get_post_image(self, obj):
+        if obj.post_image:
+            return obj.post_image.url
+        return None
 
     def get_is_post_owner(self, obj):
         request = self.context['request']
