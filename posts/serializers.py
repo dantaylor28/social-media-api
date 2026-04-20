@@ -64,21 +64,30 @@ class PostSerializer(serializers.ModelSerializer):
     #     self._handle_tags(post, tags)
     #     return post
     
+    # Uncomment this later
+    # def create(self, validated_data):
+    #     print("VALIDATED DATA:", validated_data)
+    #     print("FILES:", self.context['request'].FILES)
+
+    #     tags = validated_data.pop("tags", [])
+    #     image = validated_data.get("post_image", None)
+
+    #     post = Post.objects.create(**validated_data)
+
+    #     if image:
+    #         post.post_image = image
+    #         post.save()
+
+    #     self._handle_tags(post, tags)
+    #     return post
+
     def create(self, validated_data):
-        print("VALIDATED DATA:", validated_data)
-        print("FILES:", self.context['request'].FILES)
+        request = self.context["request"]
 
-        tags = validated_data.pop("tags", [])
-        image = validated_data.get("post_image", None)
-
-        post = Post.objects.create(**validated_data)
-
-        if image:
-            post.post_image = image
-            post.save()
-
-        self._handle_tags(post, tags)
-        return post
+        raise serializers.ValidationError({
+        "debug_validated_data": str(validated_data),
+        "debug_files": str(request.FILES),
+    })
 
     def update(self, instance, validated_data):
         tags = validated_data.pop("tags", None)
