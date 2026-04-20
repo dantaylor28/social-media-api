@@ -64,30 +64,33 @@ class PostSerializer(serializers.ModelSerializer):
     #     self._handle_tags(post, tags)
     #     return post
     
-    # Uncomment this later
-    # def create(self, validated_data):
-    #     print("VALIDATED DATA:", validated_data)
-    #     print("FILES:", self.context['request'].FILES)
-
-    #     tags = validated_data.pop("tags", [])
-    #     image = validated_data.get("post_image", None)
-
-    #     post = Post.objects.create(**validated_data)
-
-    #     if image:
-    #         post.post_image = image
-    #         post.save()
-
-    #     self._handle_tags(post, tags)
-    #     return post
-
     def create(self, validated_data):
         request = self.context["request"]
 
-        raise serializers.ValidationError({
-        "debug_validated_data": str(validated_data),
-        "debug_files": str(request.FILES),
-    })
+        tags = validated_data.pop("tags", [])
+
+    # 👇 manually get uploaded image from request.FILES
+        image = request.FILES.get("post_image")
+
+    # create post first
+        post = Post.objects.create(**validated_data)
+
+    # 👇 explicitly assign image
+        if image:
+            post.post_image = image
+            post.save()
+
+        self._handle_tags(post, tags)
+
+        return post
+
+    # def create(self, validated_data):
+    #     request = self.context["request"]
+
+    #     raise serializers.ValidationError({
+    #     "debug_validated_data": str(validated_data),
+    #     "debug_files": str(request.FILES),
+    # })
 
     def update(self, instance, validated_data):
         tags = validated_data.pop("tags", None)
