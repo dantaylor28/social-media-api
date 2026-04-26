@@ -56,41 +56,21 @@ class PostSerializer(serializers.ModelSerializer):
     def get_updated_at(self, obj):
         return naturaltime(obj.updated_at)
     
-    # Tag handling
-    # def create(self, validated_data):
-    #     tags = validated_data.pop("tags", [])
-    #     post = super().create(validated_data)
-
-    #     self._handle_tags(post, tags)
-    #     return post
-    
     def create(self, validated_data):
         request = self.context["request"]
-
         tags = validated_data.pop("tags", [])
 
-    # 👇 manually get uploaded image from request.FILES
+        # Manually get uploaded image from request.FILES
         image = request.FILES.get("post_image")
-
-    # create post first
+        # Create post first
         post = Post.objects.create(**validated_data)
 
-    # 👇 explicitly assign image
+        # Explicitly assign image
         if image:
             post.post_image = image
             post.save()
-
         self._handle_tags(post, tags)
-
         return post
-
-    # def create(self, validated_data):
-    #     request = self.context["request"]
-
-    #     raise serializers.ValidationError({
-    #     "debug_validated_data": str(validated_data),
-    #     "debug_files": str(request.FILES),
-    # })
 
     def update(self, instance, validated_data):
         tags = validated_data.pop("tags", None)
