@@ -30,7 +30,7 @@ class PostListView(generics.ListCreateAPIView):
     search_fields = [
         'title',
         'caption',
-        'tag__name',
+        # 'tag__name',
         'owner__username',
         'owner__profile__name'
     ]
@@ -43,7 +43,7 @@ class PostListView(generics.ListCreateAPIView):
 
     filterset_fields = [
         'owner__profile',
-        'tag__name',
+        # 'tag__name',
         # will show posts from users the selected user is following
         'owner__followed__owner__profile',
         # will show posts the selected user has pinned
