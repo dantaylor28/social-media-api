@@ -17,6 +17,7 @@ class PostListView(generics.ListCreateAPIView):
     serializer_class = PostSerializer
     queryset = Post.objects.annotate(
         num_of_pins=Count('pins', distinct=True),
+        num_of_likes=Count('likes', distinct=True),
         num_of_comments=Count('comment', distinct=True)
     ).order_by('-uploaded_at')
 
@@ -29,23 +30,26 @@ class PostListView(generics.ListCreateAPIView):
     search_fields = [
         'title',
         'caption',
-        # 'tag__name',
+        'tag__name',
         'owner__username',
         'owner__profile__name'
     ]
 
     ordering_fields = [
         'num_of_pins',
+        'num_of_likes',
         'num_of_comments'
     ]
 
     filterset_fields = [
         'owner__profile',
-        # 'tag__name',
+        'tag__name',
         # will show posts from users the selected user is following
         'owner__followed__owner__profile',
-        # will show posts the selected user has liked
+        # will show posts the selected user has pinned
         'pins__owner__profile'
+        # will show posts the selected user has liked
+        'likes__owner__profile'
     ]
 
     def perform_create(self, serializer):

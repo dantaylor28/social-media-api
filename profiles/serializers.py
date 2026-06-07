@@ -17,6 +17,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     num_of_following = serializers.ReadOnlyField()
     num_of_followers = serializers.ReadOnlyField()
     num_of_pinned_posts = serializers.ReadOnlyField()
+    num_of_liked_posts = serializers.ReadOnlyField()
     created_at = serializers.SerializerMethodField()
     updated_at = serializers.SerializerMethodField()
 
@@ -65,5 +66,6 @@ class ProfileSerializer(serializers.ModelSerializer):
             'id', 'name', 'location', 'bio', 'owner',
             'is_profile_owner', 'created_at', 'updated_at',
             'profile_image', 'following_id', 'num_of_posts',
-            'num_of_pinned_posts', 'num_of_followers', 'num_of_following'
+            'num_of_pinned_posts', 'num_of_liked_posts',
+            'num_of_followers', 'num_of_following'
         ]

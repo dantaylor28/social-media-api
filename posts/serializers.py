@@ -3,6 +3,7 @@ from rest_framework import serializers
 from .models import Post
 from pins.models import Pin
 from tags.models import Tag
+from likes.models import Like
 
 class PostSerializer(serializers.ModelSerializer):
     """
@@ -26,6 +27,8 @@ class PostSerializer(serializers.ModelSerializer):
     tags_display = serializers.SerializerMethodField(read_only=True)
     pinned_id = serializers.SerializerMethodField()
     num_of_pins = serializers.ReadOnlyField()
+    liked_id = serializers.SerializerMethodField()
+    num_of_likes = serializers.ReadOnlyField()
     num_of_comments = serializers.ReadOnlyField()
     updated_at = serializers.SerializerMethodField()
 
@@ -52,6 +55,14 @@ class PostSerializer(serializers.ModelSerializer):
                 owner=user, post=obj
             ).first()
             return pin.id if pin else None
+        
+    def get_liked_id(self, obj):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            like = Like.objects.filter(
+                owner=user, post=obj
+            ).first()
+            return like.id if like else None
         
     def get_updated_at(self, obj):
         return naturaltime(obj.updated_at)
@@ -96,6 +107,6 @@ class PostSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'title', 'caption', 'owner', 'is_post_owner',
             'uploaded_at', 'updated_at', 'post_image', 'profile_id',
-            'profile_image', 'pinned_id', 'num_of_pins', 'num_of_comments',
-            'tags', 'tags_display',
+            'profile_image', 'pinned_id', 'num_of_pins', 'liked_id',
+            'num_of_likes', 'num_of_comments', 'tags', 'tags_display',
         ]
