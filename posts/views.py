@@ -47,9 +47,9 @@ class PostListView(generics.ListCreateAPIView):
         # will show posts from users the selected user is following
         'owner__followed__owner__profile',
         # will show posts the selected user has pinned
-        'pins__owner__profile'
+        'pins__owner__profile',
         # will show posts the selected user has liked
-        'likes__owner__profile'
+        'likes__owner__profile',
     ]
 
     def perform_create(self, serializer):
@@ -64,5 +64,6 @@ class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsOwnerOrReadOnly]
     queryset = Post.objects.annotate(
         num_of_pins=Count('pins', distinct=True),
+        num_of_likes=Count('likes', distinct=True),
         num_of_comments=Count('comment', distinct=True)
     ).order_by('-uploaded_at')
