@@ -18,7 +18,7 @@ class PostListView(generics.ListCreateAPIView):
     queryset = Post.objects.annotate(
         num_of_pins=Count('pins', distinct=True),
         num_of_likes=Count('likes', distinct=True),
-        num_of_comments=Count('comment', distinct=True)
+        num_of_comments=Count('comments', distinct=True)
     ).order_by('-uploaded_at')
 
     filter_backends = [
@@ -65,5 +65,5 @@ class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.annotate(
         num_of_pins=Count('pins', distinct=True),
         num_of_likes=Count('likes', distinct=True),
-        num_of_comments=Count('comment', distinct=True)
+        num_of_comments=Count('comments', distinct=True)
     ).order_by('-uploaded_at')
