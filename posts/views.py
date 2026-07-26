@@ -15,11 +15,6 @@ class PostListView(generics.ListCreateAPIView):
     """
     parser_classes = (MultiPartParser, FormParser)
     serializer_class = PostSerializer
-    queryset = Post.objects.annotate(
-        num_of_pins=Count('pins', distinct=True),
-        num_of_likes=Count('likes', distinct=True),
-        num_of_comments=Count('comments', distinct=True)
-    ).order_by('-uploaded_at')
 
     filter_backends = [
         filters.SearchFilter,
@@ -51,6 +46,18 @@ class PostListView(generics.ListCreateAPIView):
         # will show posts the selected user has liked
         'likes__owner__profile',
     ]
+
+    def get_queryset(self):
+        queryset = Post.objects.annotate(
+            num_of_pins=Count("pins", distinct=True),
+            num_of_likes=Count("likes", distinct=True),
+            num_of_comments=Count("comments", distinct=True),
+        ).order_by("-uploaded_at")
+
+        if self.request.query_params.get("exclude_self") == "true":
+            queryset = queryset.exclude(owner=self.request.user)
+
+        return queryset
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
