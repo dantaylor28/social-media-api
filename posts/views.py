@@ -57,6 +57,11 @@ class PostListView(generics.ListCreateAPIView):
         if self.request.query_params.get("exclude_self") == "true":
             queryset = queryset.exclude(owner=self.request.user)
 
+        tag = self.request.query_params.get("tag")
+
+        if tag:
+            queryset = queryset.filter(tags__name__iexact=tag)
+
         return queryset
 
     def perform_create(self, serializer):
