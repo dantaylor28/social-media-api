@@ -54,7 +54,7 @@ class PostListView(generics.ListCreateAPIView):
             num_of_comments=Count("comments", distinct=True),
         ).order_by("-uploaded_at")
 
-        if self.request.query_params.get("exclude_self") == "true":
+        if self.request.query_params.get("exclude_self") == "true" and self.request.user.is_authenticated:
             queryset = queryset.exclude(owner=self.request.user)
 
         tag = self.request.query_params.get("tag")
